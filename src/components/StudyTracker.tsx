@@ -92,7 +92,7 @@ export function StudyTracker({ onComplete, tasks, onUpdateTask }: StudyTrackerPr
                   <div className="text-sm font-medium text-foreground">{task.time}</div>
                   <div className="text-sm text-muted-foreground">{task.task}</div>
                 </div>
-                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="flex items-center gap-2">
                   <TaskTimer taskName={task.task} taskTime={task.time} />
                   <EditTaskDialog 
                     task={task} 
