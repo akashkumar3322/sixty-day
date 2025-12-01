@@ -64,7 +64,7 @@ export function StudyTracker({ onComplete, tasks, onUpdateTask }: StudyTrackerPr
     <div className="w-full overflow-x-auto rounded-xl border border-border bg-card shadow-soft">
       <div className="min-w-[1200px]">
         {/* Header */}
-        <div className="sticky left-0 z-20 flex border-b border-border bg-muted">
+        <div className="left-0 z-20 flex border-b border-border bg-muted">
           <div className="w-80 shrink-0 border-r border-border bg-card px-6 py-4">
             <h3 className="font-semibold text-card-foreground">Task Schedule</h3>
           </div>
