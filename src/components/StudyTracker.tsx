@@ -86,7 +86,7 @@ export function StudyTracker({ onComplete, tasks, onUpdateTask }: StudyTrackerPr
             key={taskIndex}
             className="group flex border-b border-border last:border-b-0 hover:bg-accent/30 transition-colors"
           >
-            <div className="sticky left-0 z-10 w-80 shrink-0 border-r border-border bg-card px-6 py-4 group-hover:bg-accent/30 transition-colors">
+            <div className="left-0 z-10 w-80 shrink-0 border-r border-border bg-card px-6 py-4 group-hover:bg-accent/30 transition-colors">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <div className="text-sm font-medium text-foreground">{task.time}</div>
