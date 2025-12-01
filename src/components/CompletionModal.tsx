@@ -16,7 +16,7 @@ export function CompletionModal({ isOpen, onClose }: CompletionModalProps) {
         const audio = new Audio("data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZUQ0PVq/m7q1aGAg+ltryxnMpBSuAzPLaizsIHGu77+ugUhENVK7m7q1bGgpAmuDyvnAjBjKFz/LTgzQIH2vA7+OZURAQV7Dn7K5dGQpCm+DyvnAkBjSGz/PUhDUIIG3B7+OaUhAQWLHn7K9eGgtDnOHyvnEkBzWH0PPUhTUIH23B7+ObUxIRWLLo7LBfGwxEneHzv3IlBzaI0fPVhjYIIW7C8OSbVBISWrPo7LBgHAxFnuL0wHImCDaJ0vPWhjgJIm/D8OSbVRMSW7Pp7LFhHQ1Gn+L0wHMnCDeK0/PWiDkJI3DD8OWcVhQTXLTp7bJiHg5HoOP0wnQoCjiL1PPXiToKJHHE8OadVxUUXrXq7bNkHxBIoeT0w3UpCzmM1fPYizsLJXLF8OeeWRYVYLbr7bRlIBFJouX1xHYqCzqN1vPZizwLJnPG8OifWhcWYrfs77ZnIRJKpOb1xXcrDDuO1vPajD0MJ3TH8OmgWxgXY7nt77dpIhNLpef2xngtDTyP1/Pbjj4NKXXH8Oqh");
         audio.play();
       } catch (error) {
-        // Silently fail if audio can't play
+        console.log("you time is up");
       }
     }
   }, [isOpen]);

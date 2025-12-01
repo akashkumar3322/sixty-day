@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 interface ProgressBarProps {
-  completions: any;
+  completions: unknown;
   totalTasks: number;
   totalDays: number;
 }

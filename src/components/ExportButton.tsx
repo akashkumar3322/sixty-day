@@ -9,7 +9,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 
 interface ExportButtonProps {
-  completions: any;
+  completions: unknown;
   tasks: Array<{ time: string; task: string }>;
   totalDays: number;
 }
