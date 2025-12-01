@@ -7,7 +7,7 @@ import { ExportButton } from "@/components/ExportButton";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, RotateCcw, BarChart3 } from "lucide-react";
+import { Calendar, RotateCcw, BarChart3, Menu, X } from "lucide-react"; // Added Menu & X
 import { useToast } from "@/hooks/use-toast";
 import { useTasks } from "@/hooks/useTasks";
 
@@ -16,12 +16,13 @@ const TOTAL_DAYS = 60;
 
 const Index = () => {
   const { tasks, updateTask, resetToDefaults } = useTasks();
-  const [completions, setCompletions] = useState<any>(() => {
+  const [completions, setCompletions] = useState<unknown>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     return saved ? JSON.parse(saved) : {};
   });
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const { toast } = useToast();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // Hamburger state
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -69,16 +70,19 @@ const Index = () => {
       <header className="gradient-primary sticky top-0 z-30 border-b border-border/50 shadow-lg">
         <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+            {/* Logo */}
+            <div className="flex items-center gap-4">
               <Calendar className="h-8 w-8 text-white" />
               <div>
-                <h1 className="text-2xl font-bold text-white sm:text-3xl">
+                <h1 className="text-20px font-bold text-white sm:text-3xl">
                   60-Days Study Tracker
                 </h1>
-                <p className="text-sm text-white/90">Track your daily progress and stay consistent</p>
+                <p className="text-3x1 text-white/90">Track your daily progress</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+
+            {/* Desktop buttons */}
+            <div className="hidden md:flex items-center gap-2">
               <ThemeToggle />
               <ExportButton completions={completions} tasks={tasks} totalDays={TOTAL_DAYS} />
               <Button
@@ -91,7 +95,34 @@ const Index = () => {
                 Reset
               </Button>
             </div>
+
+            {/* Mobile Hamburger */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2 rounded-md text-white hover:bg-white/20"
+              >
+                {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
+            </div>
           </div>
+
+          {/* Mobile menu items */}
+          {mobileMenuOpen && (
+            <div className="mt-4 flex flex-col gap-2 md:hidden">
+              <ThemeToggle />
+              <ExportButton completions={completions} tasks={tasks} totalDays={TOTAL_DAYS} />
+              <Button
+                onClick={handleReset}
+                variant="secondary"
+                size="sm"
+                className="gap-2"
+              >
+                <RotateCcw className="h-4 w-4" />
+                Reset
+              </Button>
+            </div>
+          )}
         </div>
       </header>
 
@@ -165,7 +196,6 @@ const Index = () => {
             />
           </TabsContent>
         </Tabs>
-
       </main>
 
       {/* Completion Modal */}
