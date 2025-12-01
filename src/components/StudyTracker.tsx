@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { CheckCircle2, Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { TaskTimer } from "./TaskTimer";
+import { EditTaskDialog } from "./EditTaskDialog";
+import { Task } from "@/hooks/useTasks";
 
 interface TaskCompletion {
   [taskIndex: number]: {
@@ -8,25 +11,16 @@ interface TaskCompletion {
   };
 }
 
-const TASKS = [
-  { time: "8:00–8:30", task: "Fresh up + Breakfast" },
-  { time: "8:30–10:30", task: "Study (Your choice)" },
-  { time: "10:30–11:00", task: "Break" },
-  { time: "11:00–12:30", task: "Study / Test Revision" },
-  { time: "12:30–1:00", task: "Lunch" },
-  { time: "1:00–2:00", task: "Video Editing Practice" },
-  { time: "2:00–3:00", task: "Editing Projects" },
-  { time: "3:00–4:00", task: "Daily Review + Next Day Plan" },
-];
-
 const TOTAL_DAYS = 60;
 const STORAGE_KEY = "study-tracker-progress";
 
 interface StudyTrackerProps {
   onComplete: () => void;
+  tasks: Task[];
+  onUpdateTask: (index: number, task: Task) => void;
 }
 
-export function StudyTracker({ onComplete }: StudyTrackerProps) {
+export function StudyTracker({ onComplete, tasks, onUpdateTask }: StudyTrackerProps) {
   const [completions, setCompletions] = useState<TaskCompletion>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     return saved ? JSON.parse(saved) : {};
@@ -36,10 +30,10 @@ export function StudyTracker({ onComplete }: StudyTrackerProps) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(completions));
     
     // Check if all tasks are completed
-    const totalPossible = TASKS.length * TOTAL_DAYS;
+    const totalPossible = tasks.length * TOTAL_DAYS;
     let completed = 0;
     
-    TASKS.forEach((_, taskIndex) => {
+    tasks.forEach((_, taskIndex) => {
       for (let day = 1; day <= TOTAL_DAYS; day++) {
         if (completions[taskIndex]?.[day]) {
           completed++;
@@ -50,7 +44,7 @@ export function StudyTracker({ onComplete }: StudyTrackerProps) {
     if (completed === totalPossible) {
       onComplete();
     }
-  }, [completions, onComplete]);
+  }, [completions, onComplete, tasks]);
 
   const toggleCompletion = (taskIndex: number, day: number) => {
     setCompletions((prev) => ({
@@ -87,14 +81,25 @@ export function StudyTracker({ onComplete }: StudyTrackerProps) {
         </div>
 
         {/* Task Rows */}
-        {TASKS.map((task, taskIndex) => (
+        {tasks.map((task, taskIndex) => (
           <div
             key={taskIndex}
             className="group flex border-b border-border last:border-b-0 hover:bg-accent/30 transition-colors"
           >
             <div className="sticky left-0 z-10 w-80 shrink-0 border-r border-border bg-card px-6 py-4 group-hover:bg-accent/30 transition-colors">
-              <div className="text-sm font-medium text-foreground">{task.time}</div>
-              <div className="text-sm text-muted-foreground">{task.task}</div>
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  <div className="text-sm font-medium text-foreground">{task.time}</div>
+                  <div className="text-sm text-muted-foreground">{task.task}</div>
+                </div>
+                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <TaskTimer taskName={task.task} taskTime={task.time} />
+                  <EditTaskDialog 
+                    task={task} 
+                    onSave={(updatedTask) => onUpdateTask(taskIndex, updatedTask)}
+                  />
+                </div>
+              </div>
             </div>
             <div className="flex flex-1">
               {Array.from({ length: TOTAL_DAYS }, (_, i) => i + 1).map((day) => (
